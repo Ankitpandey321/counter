@@ -1,16 +1,31 @@
 from flask import Flask, render_template, redirect, url_for
 import mysql.connector
+import time
 
 app = Flask(__name__)
 
-# Function to connect to MySQL
+# Retry MySQL connection
 def get_connection():
-    return mysql.connector.connect(
-        host="mysql",
-        user="root",
-        password="password",
-        database="counterdb"
-    )
+    retries = 10
+    delay = 5  # seconds
+
+    for attempt in range(1, retries + 1):
+        try:
+            conn = mysql.connector.connect(
+                host="mysql",
+                user="root",
+                password="password",
+                database="counterdb"
+            )
+            return conn
+
+        except mysql.connector.Error as err:
+            print(f"MySQL connection failed (Attempt {attempt}/{retries}): {err}")
+
+            if attempt == retries:
+                raise  # final failure
+
+            time.sleep(delay)
 
 # Fetch current count
 def get_count():
