@@ -6,9 +6,9 @@ app = Flask(__name__)
 # Function to connect to MySQL
 def get_connection():
     return mysql.connector.connect(
-        host="localhost",
+        host="mysql",
         user="root",
-        password="your_password",
+        password="password",
         database="counterdb"
     )
 
