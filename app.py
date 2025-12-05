@@ -2,12 +2,11 @@ from flask import Flask, render_template, redirect, url_for
 import mysql.connector
 import time
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 
-# Retry MySQL connection
 def get_connection():
     retries = 10
-    delay = 5  # seconds
+    delay = 5
 
     for attempt in range(1, retries + 1):
         try:
@@ -23,11 +22,10 @@ def get_connection():
             print(f"MySQL connection failed (Attempt {attempt}/{retries}): {err}")
 
             if attempt == retries:
-                raise  # final failure
+                raise
 
             time.sleep(delay)
 
-# Fetch current count
 def get_count():
     conn = get_connection()
     cursor = conn.cursor()
@@ -36,7 +34,6 @@ def get_count():
     conn.close()
     return value
 
-# Update count
 def set_count(new_value):
     conn = get_connection()
     cursor = conn.cursor()
