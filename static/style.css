@@ -1,0 +1,14 @@
+body {
+    background: linear-gradient(120deg, #84fab0, #8fd3f4);
+}
+
+.card {
+    max-width: 450px;
+    margin: auto;
+    border-radius: 25px;
+}
+
+.display-box {
+    border: 3px solid #0d6efd;
+    border-radius: 20px;
+}
